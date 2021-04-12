@@ -1,4 +1,5 @@
 import os
+import sys
 import nibabel as nib
 import numpy as np
 
@@ -95,7 +96,7 @@ def get_data(num=[0, 228],
             continue
         if count > num[1]:
             break
-        if (len(str(file[1])) - lt 6):
+        if (len(str(file[1])) < 6):
             nii_path = os.path.join(
                 dataset_path, file[0], '0' + file[1], file[2][1:])
         else:
@@ -192,7 +193,8 @@ def to_slice(deface, seg, model=None):
 def train_data_generator(
     dataset_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1",
     csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1/ATLAS_Meta-Data_Release_1.1_standard_mni.csv",
-    num_subject=229
+    num_subject=229,
+    output_dir="/scratch/hasm/Data/Lesion/ATLAS_R1.1"
 ):
     num_subject = np.int(num_subject)
     list_end = int(num_subject - 1)
@@ -206,7 +208,7 @@ def train_data_generator(
             deface[:], seg[:], 'all')
 
         print('generating h5 file for ATLAS dataset')
-        file_train = h5py.File(os.path.join(dataset_path, 'train.h5'), 'w')
+        file_train = h5py.File(os.path.join(output_dir, 'train.h5'), 'w')
         file_train.create_dataset('data', data=deface_slice_train)
         file_train.create_dataset('label', data=seg_slice_train)
         file_train.close()
@@ -236,10 +238,29 @@ if __name__ == '__main__':
         dest="num_subject",
         help="Number of Subjects"
     )
+    parser.add_argument(
+        '--output-directory',
+        default="/scratch/hasm/Data/Lesion/ATLAS_R1.1/Subset_Symlink/",
+        type=str,
+        dest="output_dir",
+        help="Where do you want to generate output file train.h5?"
+    )
     args = parser.parse_args()
     print("".join(["dataset_path: (", str(args.dataset_path), ")"]))
     print("".join(["csv_path: (", str(args.csv_path), ")"]))
     print("".join(["num_subject: (", str(args.num_subject), ")"]))
+    print("".join(["output_dir: (", str(args.output_dir), ")"]))
+
+    if not (os.path.isdir(output_dir)):
+        print("".join(["ERROR: output_dir (" ,str(output_dir), ") does not exist."]))
+        sys.exit()
+    if not (os.path.isdir(dataset_path)):
+        print("".join(["ERROR: dataset_path (" ,str(dataset_path), ") does not exist."]))
+        sys.exit()        
+    if not (os.path.isfile(csv_path)):
+        print("".join(["ERROR: csv_path (" ,str(csv_path), ") does not exist."]))
+        sys.exit()   
     train_data_generator(dataset_path=args.dataset_path,
                          csv_path=args.csv_path,
-                         num_subject=int(args.num_subject))
+                         num_subject=int(args.num_subject),
+                         output_dir=output_dir)
