@@ -79,6 +79,7 @@ def get_data(num=[0, 228],
              ):
     # path_csv = os.path.join(
     #     dataset_path, 'ATLAS_Meta-Data_Release_1.1_standard_mni.csv')
+    print("".join(["csv_path: (", str(csv_path), ")"]))
     path_csv = os.path.join(csv_path)
     csv_reader = CSV(path_csv)
     # lines_csv = csv_reader.lines_csv
@@ -195,7 +196,7 @@ def train_data_generator(
     num = [0, list_end]
     h5_path = 'ATLAS.h5'
     if os.path.exists(h5_path) == False:
-        deface, seg = get_data(num=num, dataset_path=dataset_path)
+        deface, seg = get_data(num=num, dataset_path=dataset_path, csv_path=csv_path)
         deface = np.array(deface)
         deface_slice_train, seg_slice_train = to_slice(
             deface[:], seg[:], 'all')
