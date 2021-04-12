@@ -96,11 +96,16 @@ def get_data(num=[0, 228],
             break
         nii_path = os.path.join(
             dataset_path, file[0], '0' + file[1], file[2][1:])
+        print("".join(["DEBUG: nii_path: (", str(nii_path), ")"]))
 
         for root, dirs, files in os.walk(nii_path):
             for file in files:
+                print("".join(["DEBUG: file: (", str(file), ")"]))
+
                 deface_file = str(file).split('_')[-2]
                 seg_file = str(file).split('_')[1]
+                print("".join(["DEBUG: deface_file: (", str(deface_file), ")"]))
+                print("".join(["DEBUG: seg_file: (", str(seg_file), ")"]))
 
                 if deface_file == 'deface':
                     tem_deface = load_nii(os.path.join(
@@ -114,8 +119,7 @@ def get_data(num=[0, 228],
                     print("".join(["DEBUG: tem"]))
                     print(tem)
 
-        print("".join(["DEBUG: file: (", str(file), ")"]))
-        print("".join(["DEBUG: nii_path: (", str(nii_path), ")"]))
+
         deface.append(tem_deface)
         tem_seg = np.sum(tem_seg, axis=0)
         print("".join(["DEBUG: tem_seg"]))
