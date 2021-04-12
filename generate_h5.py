@@ -34,10 +34,12 @@ class CSV:
     def get_cols(self, cols):
         return np.transpose([self.lines_csv[:, line] for line in cols])
 
+
 def load_nii(file):
     img = nib.load(file).get_data()
 
     return img
+
 
 def read_gz_file(path):
     if os.path.exists(path):
@@ -72,8 +74,12 @@ def show_img(tem):
 
 
 def get_data(num=[0, 228],
-             dataset_path='E:\\data\\ATLAS_R1.1'):
-    path_csv = os.path.join(dataset_path, 'ATLAS_Meta-Data_Release_1.1_standard_mni.csv')
+             dataset_path='E:\\data\\ATLAS_R1.1',
+             csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1/ATLAS_Meta-Data_Release_1.1_standard_mni.csv"
+             ):
+    # path_csv = os.path.join(
+    #     dataset_path, 'ATLAS_Meta-Data_Release_1.1_standard_mni.csv')
+    path_csv = os.path.join(csv_path)
     csv_reader = CSV(path_csv)
     # lines_csv = csv_reader.lines_csv
     deface = []
@@ -88,7 +94,8 @@ def get_data(num=[0, 228],
             continue
         if count > num[1]:
             break
-        nii_path = os.path.join(dataset_path, file[0], '0' + file[1], file[2][1:])
+        nii_path = os.path.join(
+            dataset_path, file[0], '0' + file[1], file[2][1:])
 
         for root, dirs, files in os.walk(nii_path):
             for file in files:
@@ -96,10 +103,12 @@ def get_data(num=[0, 228],
                 seg_file = str(file).split('_')[1]
 
                 if deface_file == 'deface':
-                    tem_deface = load_nii(os.path.join(nii_path, file)).transpose((2, 1, 0)) / 100
+                    tem_deface = load_nii(os.path.join(
+                        nii_path, file)).transpose((2, 1, 0)) / 100
 
                 elif seg_file == 'LesionSmooth':
-                    tem = load_nii(os.path.join(nii_path, file)).transpose((2, 1, 0)).astype(np.int64)
+                    tem = load_nii(os.path.join(nii_path, file)).transpose(
+                        (2, 1, 0)).astype(np.int64)
                     tem[tem > 0] = 1
                     tem_seg.append(tem)
 
@@ -147,13 +156,16 @@ def to_slice(deface, seg, model=None):
         neg_seg = np.array(neg_seg)[index]
 
         if model[0] / model[1] < len(pos_deface) / len(neg_deface):
-            print('error', model[1] / model[0], '<', len(pos_deface) / len(neg_deface))
+            print('error', model[1] / model[0], '<',
+                  len(pos_deface) / len(neg_deface))
             return 0
         else:
             pos_num = len(pos_deface)
             seg_num = int(model[1] / model[0] * pos_num)
-            deface_slice = np.zeros((pos_num + seg_num, deface[0].shape[1], deface[0].shape[2]))
-            seg_slice = np.zeros((pos_num + seg_num, deface[0].shape[1], deface[0].shape[2]))
+            deface_slice = np.zeros(
+                (pos_num + seg_num, deface[0].shape[1], deface[0].shape[2]))
+            seg_slice = np.zeros(
+                (pos_num + seg_num, deface[0].shape[1], deface[0].shape[2]))
             deface_slice[:pos_num] = pos_deface
             deface_slice[pos_num:] = neg_deface[:seg_num]
             seg_slice[:pos_num] = pos_seg
@@ -162,12 +174,17 @@ def to_slice(deface, seg, model=None):
     return np.array(deface_slice), np.array(seg_slice)
 
 
-def train_data_generator(dataset_path='E:\\data\\ATLAS_R1.1'):
+def train_data_generator(
+    dataset_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1",
+    csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1/ATLAS_Meta-Data_Release_1.1_standard_mni.csv",
+    num_subject=[int](229)
+):
     h5_path = 'ATLAS.h5'
     if os.path.exists(h5_path) == False:
-        deface, seg = get_data([0, 228], dataset_path=dataset_path)
+        deface, seg = get_data([0, (num_subject-1)], dataset_path=dataset_path)
         deface = np.array(deface)
-        deface_slice_train, seg_slice_train = to_slice(deface[:], seg[:], 'all')
+        deface_slice_train, seg_slice_train = to_slice(
+            deface[:], seg[:], 'all')
 
         print('generating h5 file for ATLAS dataset')
         file_train = h5py.File(os.path.join(dataset_path, 'train.h5'), 'w')
@@ -178,7 +195,32 @@ def train_data_generator(dataset_path='E:\\data\\ATLAS_R1.1'):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset-path', default='E:\\data\\ATLAS_R1.1', type=str,
-                        help='path of ATLAS_R1.1')
+    parser.add_argument(
+        '--dataset-path',
+        # default='E:\\data\\ATLAS_R1.1',
+        default="/scratch/hasm/Data/Lesion/ATLAS_R1.1/Subset_Symlink/",
+        type=str,
+        dest='dataset_path',
+        help='path of ATLAS_R1.1 data directory'
+    )
+    parser.add_argument(
+        '--csv-path',
+        default="/scratch/hasm/Data/Lesion/ATLAS_R1.1_Lists/Data_subset.csv",
+        type=str,
+        dest='csv_path',
+        help='path of list csv file'
+    )
+    parser.add_argument(
+        '--num_subject',
+        default=56,
+        type=int,
+        dest="num_subject",
+        help="Number of Subjects"
+    )
     args = parser.parse_args()
-    train_data_generator(dataset_path=args.dataset_path)
+    print("".join(["dataset_path: (", str(args.dataset_path), ")"]))
+    print("".join(["csv_path: (", str(args.csv_path), ")"]))
+    print("".join(["num_subject: (", str(args.num_subject), ")"]))
+    train_data_generator(dataset_path=args.dataset_path,
+                         csv_path=args.csv_path,
+                         num_subject=args.num_subject)
