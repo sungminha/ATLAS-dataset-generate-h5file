@@ -46,5 +46,13 @@ export HDF5_USE_FILE_LOCKING='FALSE';";
 export HDF5_USE_FILE_LOCKING='FALSE';
 
 echo -e "\n\n \
-python generate_h5.py --dataset-path \"${data_dir}\" --csv-path \"${csv_path}\" --num_subject ${num_subject}";
-python generate_h5.py --dataset-path "${data_dir}" --csv-path "${csv_path}" --num_subject ${num_subject};
+python generate_h5.py \
+--dataset-path \"${data_dir}\" \
+--csv-path \"${csv_path}\" \
+--num_subject ${num_subject} \
+--output-directory \"${data_dir}\";";
+python generate_h5.py \
+--dataset-path "${data_dir}" \
+--csv-path "${csv_path}" \
+--num_subject ${num_subject} \
+--output-directory "${data_dir}";
