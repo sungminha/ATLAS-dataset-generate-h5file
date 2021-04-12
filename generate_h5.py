@@ -117,6 +117,8 @@ def get_data(num=[0, 228],
         tem_seg = np.sum(tem_seg, axis=0)
         print("".join(["DEBUG: tem_seg"]))
         print(tem_seg)
+        print("".join(["DEBUG: tem"]))
+        print(tem)
         tem_seg[tem_seg > 1] = 1
         seg.append(tem_seg)
         tem_deface = []
