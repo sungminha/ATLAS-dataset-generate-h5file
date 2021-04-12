@@ -179,6 +179,7 @@ def train_data_generator(
     csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1/ATLAS_Meta-Data_Release_1.1_standard_mni.csv",
     num_subject=229
 ):
+    num_subject = np.int(num_subject)
     h5_path = 'ATLAS.h5'
     if os.path.exists(h5_path) == False:
         deface, seg = get_data([0, (num_subject-1)], dataset_path=dataset_path)
