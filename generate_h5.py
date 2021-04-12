@@ -100,7 +100,7 @@ def get_data(num=[0, 228],
 
         for root, dirs, files in os.walk(nii_path, followlinks=True):
             for file in files:
-                # print("".join(["DEBUG: file: (", str(file), ")"]))
+                print("".join(["DEBUG: file: (", str(file), ")"]))
 
                 deface_file = str(file).split('_')[-2]
                 seg_file = str(file).split('_')[1]
