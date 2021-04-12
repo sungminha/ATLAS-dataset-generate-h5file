@@ -180,9 +180,11 @@ def train_data_generator(
     num_subject=229
 ):
     num_subject = np.int(num_subject)
+    list_end = int(num_subject - 1)
+    num = [0, list_end]
     h5_path = 'ATLAS.h5'
     if os.path.exists(h5_path) == False:
-        deface, seg = get_data([0, (num_subject-1)], dataset_path=dataset_path)
+        deface, seg = get_data(num=num, dataset_path=dataset_path)
         deface = np.array(deface)
         deface_slice_train, seg_slice_train = to_slice(
             deface[:], seg[:], 'all')
