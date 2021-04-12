@@ -95,8 +95,12 @@ def get_data(num=[0, 228],
             continue
         if count > num[1]:
             break
-        nii_path = os.path.join(
-            dataset_path, file[0], '0' + file[1], file[2][1:])
+        if (len(str(file[1])) - lt 6):
+            nii_path = os.path.join(
+                dataset_path, file[0], '0' + file[1], file[2][1:])
+        else:
+            nii_path = os.path.join(
+                dataset_path, file[0], file[1], file[2][1:])            
         print("".join(["DEBUG: nii_path: (", str(nii_path), ")"]))
 
         for root, dirs, files in os.walk(nii_path, followlinks=True):
@@ -119,7 +123,6 @@ def get_data(num=[0, 228],
                     tem_seg.append(tem)
                     # print("".join(["DEBUG: tem"]))
                     # print(tem)
-
 
         deface.append(tem_deface)
         tem_seg = np.sum(tem_seg, axis=0)
@@ -196,7 +199,8 @@ def train_data_generator(
     num = [0, list_end]
     h5_path = 'ATLAS.h5'
     if os.path.exists(h5_path) == False:
-        deface, seg = get_data(num=num, dataset_path=dataset_path, csv_path=csv_path)
+        deface, seg = get_data(
+            num=num, dataset_path=dataset_path, csv_path=csv_path)
         deface = np.array(deface)
         deface_slice_train, seg_slice_train = to_slice(
             deface[:], seg[:], 'all')
