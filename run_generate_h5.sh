@@ -8,11 +8,11 @@
 ####PBS -d /scratch/$USER ####run the job in the provided working directory path (will be HOME if the option is not called)
 ####PBS -D ####run the job in root dir
 ######## Logging Options ########
-#PBS -o /scratch/hasm/pbs_job_output/$PBS_JOBNAME_$PBS_JOBID.stdout  #### stdout default path
-#PBS -e /scratch/hasm/pbs_job_output/$PBS_JOBNAME_$PBS_JOBID.stderr  #### stderr default path
+#PBS -o /scratch/hasm/Data/Lesion/X-net_Test/logs/\${PBS_JOBNAME}_\${PBS_JOBID}.stdout  #### stdout default path
+#PBS -e /scratch/hasm/Data/Lesion/X-net_Test/logs/\${PBS_JOBNAME}_\${PBS_JOBID}.stderr  #### stderr default path
 ######## Email Options ########
 #PBS -M sungminha@wustl.edu  #### email address to nofity with following options/scenarios
-#PBS -m a ####abort, end notifications - see below lines for more options
+#PBS -m ae ####abort, end notifications - see below lines for more options
 ####PBS -m a #### send mail in case the job is aborted
 ####PBS -m b #### send mail when job begins
 ####PBS -m e #### send mail when job ends
@@ -25,11 +25,26 @@
 ####PBS -p priority #### [-1024, 1023]; higher number means faster/higher priority.
 #PBS -p -100 #### [-1024, 1023]; higher number means faster/higher priority.
 ####PBS -l nodes=1:ppn=1:gpus=1,mem=8gb,walltime=15:00:00 #### 1 node, 1 processor, 1 gpu, 8GB of memory, 15 hours of wall time requests
-#PBS -l nodes=1:ppn=8 #### 1 node, 1 processor, 1 gpu, 8GB of memory, 15 hours of wall time requests
-#PBS -l mem=128gb #### 1 node, 1 processor, 1 gpu, 8GB of memory, 15 hours of wall time requests
-#PBS -l walltime=4:00:00 #### 1 node, 1 processor, 1 gpu, 8GB of memory, 15 hours of wall time requests
+#PBS -l nodes=1:ppn=4 #### 1 node, 1 processor, 1 gpu, 8GB of memory, 15 hours of wall time requests
+#PBS -l mem=48gb #### 1 node, 1 processor, 1 gpu, 8GB of memory, 15 hours of wall time requests
+#PBS -l walltime=2:00:00 #### 1 node, 1 processor, 1 gpu, 8GB of memory, 15 hours of wall time requests
+################################## END OF EMBEDDED PBS COMMANDS ##########################
 
-source activate /scratch/hasm/conda/py3_7_conda_forge_pytorch;
-cd /home/hasm/comp_space/Data/Lesion/ATLAS-dataset-generate-h5file;
+data_dir="/scratch/hasm/Data/Lesion/ATLAS_R1.1/Subset_Symlink";
+csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1_Lists/Data_subset.csv";
+num_subject=56;
+echo -e "\n\n \
+source activate py3_8_conda_forge_pytorch_tensorflow;";
+source activate py3_8_conda_forge_pytorch_tensorflow;
+
+echo -e "\n\n \
+cd /scratch/hasm/Data/Lesion/X-net_Test/ATLAS-dataset-generate-h5file";
+cd /scratch/hasm/Data/Lesion/X-net_Test/ATLAS-dataset-generate-h5file;
+
+echo -e "\n\n \
+export HDF5_USE_FILE_LOCKING='FALSE';";
 export HDF5_USE_FILE_LOCKING='FALSE';
-python generate_h5.py --dataset-path /scratch/hasm/Data/Lesion/ATLAS_R1.1/;
+
+echo -e "\n\n \
+python generate_h5.py --dataset-path \"${data_dir}\" --csv-path \"${csv_path}\" --num_subject ${num_subject}";
+python generate_h5.py --dataset-path "${data_dir}" --csv-path "${csv_path}" --num_subject ${num_subject};
