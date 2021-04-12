@@ -112,8 +112,11 @@ def get_data(num=[0, 228],
                     tem[tem > 0] = 1
                     tem_seg.append(tem)
 
+        print("".join(["DEBUG: file: (", str(file), ")"]))
         deface.append(tem_deface)
         tem_seg = np.sum(tem_seg, axis=0)
+        print("".join(["DEBUG: tem_seg"]))
+        print(tem_seg)
         tem_seg[tem_seg > 1] = 1
         seg.append(tem_seg)
         tem_deface = []
