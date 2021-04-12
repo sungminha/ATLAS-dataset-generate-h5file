@@ -251,16 +251,16 @@ if __name__ == '__main__':
     print("".join(["num_subject: (", str(args.num_subject), ")"]))
     print("".join(["output_dir: (", str(args.output_dir), ")"]))
 
-    if not (os.path.isdir(output_dir)):
-        print("".join(["ERROR: output_dir (" ,str(output_dir), ") does not exist."]))
+    if not (os.path.isdir(args.output_dir)):
+        print("".join(["ERROR: output_dir (" ,str(args.output_dir), ") does not exist."]))
         sys.exit()
-    if not (os.path.isdir(dataset_path)):
-        print("".join(["ERROR: dataset_path (" ,str(dataset_path), ") does not exist."]))
+    if not (os.path.isdir(args.dataset_path)):
+        print("".join(["ERROR: dataset_path (" ,str(args.dataset_path), ") does not exist."]))
         sys.exit()        
-    if not (os.path.isfile(csv_path)):
-        print("".join(["ERROR: csv_path (" ,str(csv_path), ") does not exist."]))
+    if not (os.path.isfile(args.csv_path)):
+        print("".join(["ERROR: csv_path (" ,str(args.csv_path), ") does not exist."]))
         sys.exit()   
     train_data_generator(dataset_path=args.dataset_path,
                          csv_path=args.csv_path,
                          num_subject=int(args.num_subject),
-                         output_dir=output_dir)
+                         output_dir=args.output_dir)
