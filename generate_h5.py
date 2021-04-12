@@ -111,14 +111,16 @@ def get_data(num=[0, 228],
                         (2, 1, 0)).astype(np.int64)
                     tem[tem > 0] = 1
                     tem_seg.append(tem)
+                    print("".join(["DEBUG: tem"]))
+                    print(tem)
 
         print("".join(["DEBUG: file: (", str(file), ")"]))
+        print("".join(["DEBUG: nii_path: (", str(nii_path), ")"]))
         deface.append(tem_deface)
         tem_seg = np.sum(tem_seg, axis=0)
         print("".join(["DEBUG: tem_seg"]))
         print(tem_seg)
-        print("".join(["DEBUG: tem"]))
-        print(tem)
+
         tem_seg[tem_seg > 1] = 1
         seg.append(tem_seg)
         tem_deface = []
