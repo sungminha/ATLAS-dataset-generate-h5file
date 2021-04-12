@@ -224,4 +224,4 @@ if __name__ == '__main__':
     print("".join(["num_subject: (", str(args.num_subject), ")"]))
     train_data_generator(dataset_path=args.dataset_path,
                          csv_path=args.csv_path,
-                         num_subject=args.num_subject)
+                         num_subject=int(args.num_subject))
