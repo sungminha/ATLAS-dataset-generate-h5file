@@ -177,7 +177,7 @@ def to_slice(deface, seg, model=None):
 def train_data_generator(
     dataset_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1",
     csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1/ATLAS_Meta-Data_Release_1.1_standard_mni.csv",
-    num_subject=[int](229)
+    num_subject=229
 ):
     h5_path = 'ATLAS.h5'
     if os.path.exists(h5_path) == False:
