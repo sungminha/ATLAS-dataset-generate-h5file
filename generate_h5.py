@@ -97,11 +97,13 @@ def get_data(num=[0, 228],
         if count > num[1]:
             break
         if (len(str(file[1])) < 6):
+            #for format: Site9,31984, t01
             nii_path = os.path.join(
                 dataset_path, file[0], '0' + file[1], file[2][1:])
         else:
+            #for modified:  Site6,031931,t01 format
             nii_path = os.path.join(
-                dataset_path, file[0], file[1], file[2][1:])            
+                dataset_path, file[0], file[1], file[2])           
         print("".join(["DEBUG: nii_path: (", str(nii_path), ")"]))
 
         for root, dirs, files in os.walk(nii_path, followlinks=True):
