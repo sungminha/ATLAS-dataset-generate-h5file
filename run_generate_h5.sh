@@ -34,6 +34,7 @@
 data_dir="/scratch/hasm/Data/Lesion/ATLAS_R1.1/Only_Data"
 # csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1_Lists/Data_subset.csv";
 csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1_Lists/Sample_Visualization_Site_ID_Timepoint.csv";
+output_dir="/home/hasm/comp_space/Data/Lesion/ATLAS_R1.1/Sample_Visualization";
 # num_subject=56;
 num_subject=3;
 echo -e "\n\n \
@@ -53,9 +54,9 @@ python generate_h5.py \
 --dataset-path \"${data_dir}\" \
 --csv-path \"${csv_path}\" \
 --num_subject ${num_subject} \
---output-directory \"${data_dir}\";";
+--output-directory \"${output_dir}\";";
 python generate_h5.py \
 --dataset-path "${data_dir}" \
 --csv-path "${csv_path}" \
 --num_subject ${num_subject} \
---output-directory "${data_dir}";
+--output-directory "${output_dir}";
