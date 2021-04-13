@@ -4,7 +4,7 @@
 ################################## START OF EMBEDDED PBS COMMANDS ##########################
 ######## Common options ########
 #PBS -S /bin/bash  #### Default Shell to be Used
-#PBS -N Generate-H5  #### Job Name to be listed in qstat
+#PBS -N Generate-H5_Sample  #### Job Name to be listed in qstat
 ####PBS -d /scratch/$USER ####run the job in the provided working directory path (will be HOME if the option is not called)
 ####PBS -D ####run the job in root dir
 ######## Logging Options ########
@@ -30,9 +30,12 @@
 #PBS -l walltime=2:00:00 #### 1 node, 1 processor, 1 gpu, 8GB of memory, 15 hours of wall time requests
 ################################## END OF EMBEDDED PBS COMMANDS ##########################
 
-data_dir="/scratch/hasm/Data/Lesion/ATLAS_R1.1/Subset_Symlink";
-csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1_Lists/Data_subset.csv";
-num_subject=56;
+# data_dir="/scratch/hasm/Data/Lesion/ATLAS_R1.1/Subset_Symlink";
+data_dir="/scratch/hasm/Data/Lesion/ATLAS_R1.1/Only_Data"
+# csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1_Lists/Data_subset.csv";
+csv_path="/scratch/hasm/Data/Lesion/ATLAS_R1.1_Lists/Sample_Visualization_Site_ID_Timepoint.csv";
+# num_subject=56;
+num_subject=3;
 echo -e "\n\n \
 source activate py3_8_conda_forge_pytorch_tensorflow;";
 source activate py3_8_conda_forge_pytorch_tensorflow;
