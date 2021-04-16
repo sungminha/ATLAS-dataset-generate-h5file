@@ -111,6 +111,8 @@ else
     timepoint=`sed -n "${i}p" "${csv_path}" | cut -d, -f3`;
 
     echo -e "${i}\t|\t${num_subject} - ${site} | ${id} | ${timepoint} (${temp_csv_path}";
+    cat "${temp_csv_path}";
+    
     outdir="${output_dir}/${site}/${id}/${timepoint}";
     mkdir -pv "${outdir}";
 
