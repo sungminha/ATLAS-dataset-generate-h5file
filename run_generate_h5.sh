@@ -105,14 +105,18 @@ else
   for (( i = 1; i <= ${num_subject}; i++ ));
   do
     temp_csv_path="${output_dir}/Sample_Visualization_Site_ID_Timepoint_${i}.csv";
-    sed -n "${i}p" "${csv_path}" > "${temp_csv_path}";
+    head -n 1 "${csv_path}" > "${temp_csv_path}";
+    sed -n "${i}p" "${csv_path}" >> "${temp_csv_path}";
     site=`sed -n "${i}p" "${csv_path}" | cut -d, -f1`;
     id=`sed -n "${i}p" "${csv_path}" | cut -d, -f2`;
     timepoint=`sed -n "${i}p" "${csv_path}" | cut -d, -f3`;
 
-    echo -e "${i}\t|\t${num_subject} - ${site} | ${id} | ${timepoint} (${temp_csv_path}";
+    echo -e "\n\n \
+    ${i}\t|\t${num_subject} - ${site} | ${id} | ${timepoint} (${temp_csv_path}";
+    echo -e "\n\n \
+    cat \"${temp_csv_path}\";";
     cat "${temp_csv_path}";
-    
+
     outdir="${output_dir}/${site}/${id}/${timepoint}";
     mkdir -pv "${outdir}";
 
