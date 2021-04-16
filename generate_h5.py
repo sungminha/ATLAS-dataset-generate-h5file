@@ -80,9 +80,9 @@ def get_data(num=[0, 228],
              ):
     # path_csv = os.path.join(
     #     dataset_path, 'ATLAS_Meta-Data_Release_1.1_standard_mni.csv')
-    print("".join(["generate_h5: get_data - csv_path: (", str(csv_path), ")"]))
-    print("".join(["generate_h5: get_data - dataset_path: (", str(dataset_path), ")"]))
-    
+    print("".join(["DEBUG: generate_h5: get_data - csv_path: (", str(csv_path), ")"]))
+    print("".join(["DEBUG: generate_h5: get_data - dataset_path: (", str(dataset_path), ")"]))
+
     path_csv = os.path.join(csv_path)
     csv_reader = CSV(path_csv)
     # lines_csv = csv_reader.lines_csv
