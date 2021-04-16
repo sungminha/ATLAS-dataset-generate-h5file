@@ -102,7 +102,7 @@ then
   --output-directory "${output_dir}";
 else
   #generate temp csv
-  for i in ((i = 0; i <= ${num_subject}; i++));
+  for (( i = 1; i <= ${num_subject}; i++ ));
   do
     temp_csv_path="${output_dir}/Sample_Visualization_Site_ID_Timepoint_${i}.csv";
     sed -n "${i}p" "${csv_path}" > "${temp_csv_path}";
