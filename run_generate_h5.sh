@@ -112,7 +112,7 @@ else
 
     echo -e "${i}\t|\t${num_subject} - ${site} | ${id} | ${timepoint} (${temp_csv_path}";
     outdir="${output_dir}/${site}/${id}/${timepoint}";
-    mkdiv -pv "${outdir}";
+    mkdir -pv "${outdir}";
 
     echo -e "\n\n \
     python generate_h5.py \
